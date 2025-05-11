@@ -1,0 +1,128 @@
+/* src/components/layouts/MainAppLayout.module.css */
+
+.appContainer {
+  display: flex; /* Base for desktop, might be overridden by mobileLayoutContainer */
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden; /* Prevent scrollbars from interfering with layout */
+  position: relative; /* For positioning children absolutely if needed */
+}
+
+/* --- Desktop Specific --- */
+.contentAreaContainer { /* Left 50% on desktop */
+  width: 50%;
+  height: 100%;
+  position: relative; /* Crucial for positioning children panels */
+  overflow: hidden; /* Clip animations within this container */
+  background-color: #f0f0f0; /* Base background for the content side */
+}
+
+.navMenuArea { /* Right 50% on desktop */
+  width: 50%;
+  height: 100%;
+  overflow-y: auto;
+  background-color: #e0e0e0; 
+  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+  z-index: 100; /* Ensure it's above landing page elements during transition */
+}
+
+/* --- Shared by Desktop Content Area & Mobile Content Area --- */
+.mainPageContent {
+  width: 100%; 
+  height: 100%;
+  overflow-y: auto;
+  padding: 1rem; /* Example padding */
+  box-sizing: border-box;
+  position: relative; /* So it can have its own stacking context if needed */
+  z-index: 1; /* Below building detail panel */
+}
+
+.buildingDetailPanel, .buildingDetailPanelMobile {
+  position: absolute;
+  top: 0;
+  left: 0; 
+  width: 100%; /* Mobile detail panel takes full width of its content area parent */
+  height: 100%;
+  background-color: #ffffff; /* Typically a solid background */
+  box-shadow: 2px 0 10px rgba(0,0,0,0.15); /* Shadow to give depth */
+  overflow-y: auto;
+  z-index: 2; /* Above mainPageContent */
+  /* Padding and other styles for content within the panel will be on BuildingDetailPage itself */
+}
+
+.buildingDetailPanel { /* Desktop specific width adjustment */
+  width: 90%; 
+}
+
+.homePeekArea { /* Desktop only */
+  position: absolute;
+  top: 0;
+  left: 0; 
+  width: 10%; /* The remaining 10% of the contentAreaContainer, effectively the home page peek */
+  height: 100%;
+  z-index: 3; /* Above buildingDetailPanel to be clickable */
+  cursor: pointer;
+  /* background-color: rgba(0,0,0,0.05); Optional: subtle visual indicator */
+  /* Add a visual cue like a border or a subtle gradient if needed */
+}
+
+/* --- Mobile Specific --- */
+.mobileLayoutContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.mobileTopBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background-color: #f8f8f8; /* Example background */
+  border-bottom: 1px solid #ddd;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 1050; /* Above content, below modals if any */
+  position: relative; /* For z-index to work against dropdown */
+}
+
+.companyName {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.mobileNavDropdown {
+  width: 100%;
+  background-color: #fff; /* Or slightly off-white like #fdfdfd */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  overflow: hidden; /* Managed by framer-motion height animation */
+  z-index: 1000; /* Below top bar, above content */
+  position: relative; /* For stacking context */
+}
+
+/* The .NavigationMenu component itself will need styling for mobile context, e.g., smaller fonts */
+.mobileNavDropdown .navMenuContainer { /* Example: Target nested NavigationMenu for mobile */
+  padding: 1rem;
+}
+.mobileNavDropdown .navLink {
+  font-size: 1.2rem; /* Smaller font for mobile dropdown */
+  padding: 0.75rem 0;
+}
+
+.mobileContentArea {
+  flex-grow: 1; /* Takes remaining height */
+  overflow-y: auto; /* Allows content to scroll */
+  position: relative; /* For building detail panel positioning */
+  background-color: #f0f0f0;
+  /* Transition for push-down effect - this is tricky with auto height */
+  /* We might need to animate margin-top on this element if .mobileNavDropdown has fixed height */
+  /* For now, the dropdown overlays. Push-down requires more complex animation coordination or fixed height menu. */
+  transition: transform 0.5s ease-in-out; /* For push down */
+}
+
+.mobileContentArea.contentPushedDown {
+  /* This class would be added if menu is pushing content. */
+  /* transform: translateY(var(--menu-height)); /* Needs --menu-height variable */
+  /* This is complex; for now, dropdown overlays. We can revisit push. */
+} 

@@ -166,3 +166,97 @@ a.secondary {
     filter: invert();
   }
 }
+
+.landingContainer {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.coverPhotoMotionWrapper {
+  /* This wrapper helps manage the fixed positioning and animation for the cover photo */
+  width: 60%; /* Desktop: 60% width */
+  height: 100vh;
+  position: fixed; /* Fixed for desktop animation */
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.coverPhotoArea {
+  width: 100%; 
+  height: 100%; /* Takes full height of its motion wrapper */
+  background-color: #333; /* Placeholder color */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* No position:fixed here, it's on the wrapper */
+}
+
+.homePeekArea {
+  width: 40%; /* Desktop: 40% width */
+  height: 100vh;
+  background-color: #f0f0f0;
+  position: absolute; /* Relative to landingContainer for desktop */
+  top: 0;
+  right: 0;
+  padding: 20px;
+  cursor: pointer;
+  border-left: 2px solid #ccc; /* Desktop separator */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1; /* Ensure it's behind fixed elements like burger menu if they overlap */
+}
+
+.burgerMenuPlaceholder {
+  position: fixed; 
+  top: 20px; 
+  left: 20px; 
+  z-index: 20; /* Above cover photo and peek area */
+  background: rgba(0,0,0,0.5); 
+  padding: 10px; 
+  color: white;
+}
+
+/* Mobile specific styles (e.g., for screens < 768px) */
+@media (max-width: 767.98px) {
+  .landingContainer {
+    flex-direction: column; /* Stack them vertically */
+  }
+
+  .coverPhotoMotionWrapper {
+    width: 100%; 
+    height: 60vh; /* Cover photo takes 60% height on mobile */
+    position: relative; /* Becomes part of the flex flow */
+    order: 2; /* Cover photo at the bottom */
+    /* Reset fixed positioning values */
+    top: auto;
+    left: auto;
+  }
+  
+  /* .coverPhotoArea styling remains largely the same, it fills its wrapper */
+
+  .homePeekArea {
+    width: 100%;
+    height: 40vh; /* Home peek takes 40% height on mobile */
+    position: relative; /* Becomes part of the flex flow */
+    order: 1; /* Home peek at the top */
+    border-left: none; 
+    border-bottom: 2px solid #ccc; 
+    /* Reset absolute positioning values */
+    top: auto;
+    right: auto;
+    z-index: auto; /* Reset z-index */
+  }
+
+  .burgerMenuPlaceholder {
+    /* Position might need adjustment if it's part of homePeekArea now */
+    /* For simplicity, keeping it fixed for now */
+  }
+}

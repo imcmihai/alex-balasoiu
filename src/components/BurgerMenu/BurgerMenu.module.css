@@ -1,0 +1,34 @@
+/* architecture-website/src/components/BurgerMenu/BurgerMenu.module.css */
+.burgerButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px; /* Adjust size as needed */
+  height: 25px; /* Adjust size as needed */
+  z-index: 1100; /* Ensure it's above other content */
+}
+
+.bar {
+  width: 100%;
+  height: 3px; /* Thickness of bars */
+  background-color: #333; /* Color of bars, adapt to theme */
+  border-radius: 2px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Animation for burger to X */
+.burgerButton.isOpen .bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg); /* Adjusted for 25px height, 3px bar */
+}
+
+.burgerButton.isOpen .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.burgerButton.isOpen .bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg); /* Adjusted for 25px height, 3px bar */
+} 

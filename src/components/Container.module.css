@@ -1,0 +1,33 @@
+/* src/components/Container.module.css */
+
+.containerBase {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem; /* Corresponds to spacing.4 */
+  padding-right: 1rem; /* Corresponds to spacing.4 */
+  box-sizing: border-box;
+}
+
+/* Max-width presets - adjust these values as needed */
+.sm {
+  max-width: 640px; /* Example for small screens or content areas */
+}
+
+.md {
+  max-width: 768px;
+}
+
+.lg {
+  max-width: 1024px; /* Often used as a default main content width */
+}
+
+.xl {
+  max-width: 1280px;
+}
+
+.full {
+  max-width: 100%;
+}
+
+/* You can add more specific container styles or variants here */ 

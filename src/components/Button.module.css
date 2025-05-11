@@ -1,0 +1,37 @@
+/* src/components/Button.module.css */
+
+.buttonBase {
+  padding: 0.75rem 1.5rem; /* Corresponds to spacing.3 and spacing.6 roughly */
+  border: none;
+  border-radius: 4px; /* Example border radius */
+  font-size: 1rem; /* Corresponds to fontSizes.base */
+  font-weight: 600; /* Corresponds to fontWeights.semibold */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: inherit; /* Inherit color by default, can be overridden by variants */
+}
+
+.primary {
+  background-color: #0070f3; /* Example primary color - replace with your colors.primary */
+  color: white; /* Example text color for primary - replace with colors.secondary or a text color */
+}
+
+.primary:hover {
+  background-color: #005bb5; /* Darker shade for hover */
+}
+
+.secondary {
+  background-color: transparent;
+  color: #333; /* Example text color for secondary - replace with colors.text.primary */
+  border: 1px solid #ccc; /* Example border - replace with colors.neutral.mediumGray */
+}
+
+.secondary:hover {
+  background-color: #f0f0f0; /* Slight background on hover - replace with colors.neutral.lightGray or similar */
+}
+
+/* Add more variants or states as needed */ 

@@ -1,0 +1,60 @@
+/* src/components/NavigationMenu/NavigationMenu.module.css */
+
+.navMenuContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 2rem; /* Example padding */
+  box-sizing: border-box;
+  color: #333; /* Example text color */
+}
+
+.logoPlaceholder {
+  margin-bottom: 3rem; /* Space below logo */
+  text-align: center; /* Or left, as per design */
+}
+
+.logoLink {
+  font-size: 1.8rem; /* Example size */
+  font-weight: bold;
+  text-decoration: none;
+  color: inherit;
+}
+
+.navList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1; /* Allows list to take up available space */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center items vertically */
+}
+
+.navItem {
+  margin-bottom: 1.5rem; /* Spacing between items */
+  text-align: center; /* Or left, as per design */
+}
+
+.navLink {
+  font-size: 1.5rem; /* Example size */
+  text-decoration: none;
+  color: #555; /* Example link color */
+  transition: color 0.3s ease; /* PRD 2.2.2: Color shift on hover (0.3s ease) */
+  display: inline-block; /* For hover scale to work nicely */
+}
+
+.navLink:hover {
+  color: #0070f3; /* Example hover color - replace with actual accent/primary color */
+}
+
+.contactInfoPlaceholder {
+  margin-top: auto; /* Pushes to the bottom */
+  text-align: center; /* Or left, as per design */
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.contactInfoPlaceholder p {
+  margin: 0.25rem 0;
+} 
