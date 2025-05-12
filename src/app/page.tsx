@@ -7,7 +7,7 @@ import { coverPhotoRetract } from '@/lib/animationVariants';
 import styles from './page.module.css'; // Import the CSS module
 
 // Placeholder for the Cover Photo component
-const CoverPhoto = () => (
+/*const CoverPhoto = () => (
   <motion.div
     style={{
       width: '60%', // PRD 2.1.1: Cover photo 60% screen width
@@ -23,7 +23,7 @@ const CoverPhoto = () => (
   >
     <h2>Cover Photo Area (60%)</h2>
   </motion.div>
-);
+); */
 
 export default function LandingPage() {
   const { navigateToHome, isCoverPhotoVisible, currentView } = useNavigation();

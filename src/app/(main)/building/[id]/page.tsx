@@ -10,7 +10,7 @@ import { useParams } from 'next/navigation'; // Import useParams
 //   params: { id: string }; 
 // }
 
-const arrowWidgetStyles: React.CSSProperties = {
+/*const arrowWidgetStyles: React.CSSProperties = {
   position: 'fixed', // Fixed to the viewport, but constrained by its parent's (panel) overflow if any
   // To position relative to the panel, the panel (.buildingDetailPanel) would need position: relative
   // and this arrow would be position: absolute.
@@ -32,7 +32,7 @@ const arrowWidgetStyles: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-};
+}; */
 
 export default function BuildingDetailPage() { // Removed props
   const params = useParams(); // Use the hook

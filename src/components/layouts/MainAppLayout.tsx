@@ -2,13 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigation, AppView } from '@/context/NavigationContext';
+import { useNavigation} from '@/context/NavigationContext';
 import { usePathname } from 'next/navigation';
 import styles from './MainAppLayout.module.css';
 import {
-  navMenuSlideIn,
   fadeInWithExit,
-  buildingDetailSlideIn,
   navMenuComprehensive,
   contentAreaAnimateWidth,
   buildingDetailSlideInDelayed,
