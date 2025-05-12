@@ -1,11 +1,12 @@
 import React from 'react';
 import MainAppLayout from '@/components/layouts/MainAppLayout';
 
-interface BuildingDetailPageProps {
-  params: { id: string }; // Next.js passes dynamic route params here
+type Props = {
+  params: { id: string }
+  searchParams: { [key: string]: string | string[] | undefined }
 }
 
-export default function BuildingDetailPage({ params }: BuildingDetailPageProps) {
+export default function BuildingDetailPage({ params }: Props) {
   return (
     <MainAppLayout>
       <div>
