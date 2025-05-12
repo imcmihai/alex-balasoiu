@@ -9,6 +9,10 @@ import {
   navMenuSlideIn,
   fadeInWithExit,
   buildingDetailSlideIn,
+  navMenuComprehensive,
+  contentAreaAnimateWidth,
+  buildingDetailSlideInDelayed,
+  buildingDetailSlideInDefault,
 } from '@/lib/animationVariants';
 import NavigationMenu from '@/components/NavigationMenu/NavigationMenu';
 import BurgerMenu from '@/components/BurgerMenu/BurgerMenu';
@@ -32,6 +36,7 @@ const useIsMobile = () => {
 const MainAppLayout: React.FC<MainAppLayoutProps> = ({ children }) => {
   const {
     currentView,
+    previousView,
     isNavOpen,
     activeBuildingId,
     closeBuildingDetail,
@@ -43,6 +48,23 @@ const MainAppLayout: React.FC<MainAppLayoutProps> = ({ children }) => {
 
   const isMainLayoutVisible = currentView !== 'landing';
   if (!isMainLayoutVisible) return <>{children}</>;
+
+  // Determine animation targets based on current and previous view
+  let contentAnimateTarget = 'normal';
+  if (currentView === 'buildingDetail') {
+    contentAnimateTarget = 'expandedTo80';
+  } else if (previousView === 'buildingDetail' && (currentView === 'homeWithNav' || currentView === 'pageWithNav')) {
+    contentAnimateTarget = 'normalAfterDetail';
+  }
+
+  let navMenuAnimateTarget = 'visible'; // Default for when isNavOpen is true
+  if (currentView === 'buildingDetail') {
+    navMenuAnimateTarget = 'hiddenLeft';
+  } else if (previousView === 'buildingDetail' && (currentView === 'homeWithNav' || currentView === 'pageWithNav')) {
+    navMenuAnimateTarget = 'visibleAfterDetail';
+  }
+  // Note: The AnimatePresence for navMenuArea handles the isNavOpen for initial appearance/disappearance to/from landing.
+  // The initial="initialHiddenRight" and exit="exitToRight" on motion.aside also play a role.
 
   let mainContent = null;
   if (currentView === 'homeWithNav' || currentView === 'pageWithNav') {
@@ -71,7 +93,12 @@ const MainAppLayout: React.FC<MainAppLayoutProps> = ({ children }) => {
       {!isMobile && (
         // DESKTOP: Left Content Area + Right Nav Menu Panel
         <>
-          <div className={styles.contentAreaContainer}>
+          <motion.div
+            className={styles.contentAreaContainer}
+            variants={contentAreaAnimateWidth}
+            initial="normal"
+            animate={contentAnimateTarget}
+          >
             <AnimatePresence mode="wait">
               <motion.main
                 key={pathname} 
@@ -98,7 +125,7 @@ const MainAppLayout: React.FC<MainAppLayoutProps> = ({ children }) => {
                 <motion.div
                   key={`building-${activeBuildingId}`}
                   className={styles.buildingDetailPanel}
-                  variants={buildingDetailSlideIn}
+                  variants={buildingDetailSlideInDelayed}
                   initial="hidden"
                   animate="visible"
                   exit="exit"
@@ -107,16 +134,16 @@ const MainAppLayout: React.FC<MainAppLayoutProps> = ({ children }) => {
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
+          </motion.div>
 
           <AnimatePresence>
             {isNavOpen && (
               <motion.aside
                 className={styles.navMenuArea}
-                variants={navMenuSlideIn}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
+                variants={navMenuComprehensive}
+                initial="initialHiddenRight"
+                animate={navMenuAnimateTarget}
+                exit="exitToRight"
               >
                 <NavigationMenu />
               </motion.aside>
@@ -169,7 +196,7 @@ const MainAppLayout: React.FC<MainAppLayoutProps> = ({ children }) => {
                 <motion.div
                   key={`building-${activeBuildingId}`}
                   className={styles.buildingDetailPanelMobile}
-                  variants={buildingDetailSlideIn}
+                  variants={buildingDetailSlideInDefault}
                   initial="hidden"
                   animate="visible"
                   exit="exit"

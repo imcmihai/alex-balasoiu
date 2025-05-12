@@ -255,8 +255,5 @@ a.secondary {
     z-index: auto; /* Reset z-index */
   }
 
-  .burgerMenuPlaceholder {
-    /* Position might need adjustment if it's part of homePeekArea now */
-    /* For simplicity, keeping it fixed for now */
-  }
+
 }

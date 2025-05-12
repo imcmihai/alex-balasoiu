@@ -5,17 +5,23 @@ import Link from 'next/link'; // Using Next.js Link for client-side navigation b
 import { useNavigation } from '@/context/NavigationContext';
 import styles from './NavigationMenu.module.css';
 import { motion } from 'framer-motion';
+import { usePathname } from 'next/navigation';
 
 const navItems = [
   { label: 'Home', path: '/home' },
   { label: 'About', path: '/about' },
   { label: 'Services', path: '/services' },
   { label: 'Contact', path: '/contact' },
-  // Add other navigation items if any
+  { label: 'Home Copy 1', path: '/home-copy-1' },
+  { label: 'Home Copy 2', path: '/home-copy-2' },
+  { label: 'Home Copy 3', path: '/home-copy-3' },
+  { label: 'Home Copy 4', path: '/home-copy-4' },
+  { label: 'Home Copy 5', path: '/home-copy-5' },
 ];
 
 const NavigationMenu: React.FC = () => {
   const { navigateToPage } = useNavigation();
+  const currentPathname = usePathname();
 
   const handleLinkClick = (path: string, e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault(); // Prevent default link behavior
@@ -39,13 +45,9 @@ const NavigationMenu: React.FC = () => {
             whileHover={{ scale: 1.05 }} // Subtle hover effect
             transition={{ type: 'spring', stiffness: 300 }}
           >
-            <Link 
-              href={item.path} 
-              onClick={(e) => handleLinkClick(item.path, e)}
-              className={styles.navLink}
-            >
+            <a onClick={(e) => handleLinkClick(item.path, e)} className={currentPathname === item.path ? styles.activeLink : styles.navLink}>
               {item.label}
-            </Link>
+            </a>
           </motion.li>
         ))}
       </ul>

@@ -8,6 +8,7 @@ export type AppView = 'landing' | 'homeWithNav' | 'pageWithNav' | 'buildingDetai
 
 interface NavigationState {
   currentView: AppView;
+  previousView: AppView | null; // Added previousView
   isCoverPhotoVisible: boolean; // Managed by currentView but kept for clarity for now
   isNavOpen: boolean; // Managed by currentView but kept for clarity
   activeBuildingId: string | null; // Added for building detail
@@ -24,6 +25,7 @@ interface NavigationContextType extends NavigationState {
 
 const defaultState: NavigationState = {
   currentView: 'landing', // Start at landing
+  previousView: null, // Initialize previousView
   isCoverPhotoVisible: true,
   isNavOpen: false,
   activeBuildingId: null, // Initialize
@@ -39,6 +41,14 @@ export const NavigationProvider: React.FC<{ children: ReactNode }> = ({ children
   const router = useRouter();
   const pathname = usePathname();
 
+  // Helper to update state while setting previousView
+  const updateNavState = (updater: (prevState: NavigationState) => NavigationState) => {
+    setNavState(prev => {
+      const newState = updater(prev);
+      return { ...newState, previousView: prev.currentView };
+    });
+  };
+
   // Effect to sync context state with URL, primarily for browser back/forward or direct URL entry
   useEffect(() => {
     const pathSegments = pathname.split('/').filter(Boolean);
@@ -48,10 +58,12 @@ export const NavigationProvider: React.FC<{ children: ReactNode }> = ({ children
     let newActiveBuildingId: string | null = null;
     // isMobileMenuOpen is not directly synced with path, it's a manual toggle
 
+    const homeCopyRegex = /^\/home-copy-\d+$/; // Regex for /home-copy-1, /home-copy-2, etc.
+
     if (pathname === '/') {
       // Default landing state handled by initialization
       newIsNavOpen = false; // Explicitly keep desktop nav closed
-    } else if (pathname === '/home') {
+    } else if (pathname === '/home' || homeCopyRegex.test(pathname)) {
       newView = 'homeWithNav';
       newIsCoverVisible = false;
       newIsNavOpen = true; // Desktop nav opens
@@ -66,65 +78,74 @@ export const NavigationProvider: React.FC<{ children: ReactNode }> = ({ children
       newIsNavOpen = true; // Desktop nav remains open
     }
 
-    setNavState(prevState => ({
-      ...prevState, // Preserve isMobileMenuOpen
-      currentView: newView,
-      isCoverPhotoVisible: newIsCoverVisible,
-      isNavOpen: newIsNavOpen, // This will be overridden by media queries for actual display
-      activeBuildingId: newActiveBuildingId,
-    }));
+    // Update state, preserving previousView logic if this effect is setting initial state
+    // For direct URL navigation, previousView might be less relevant or set to current if truly initial
+    setNavState(prevState => {
+      // If currentView is different, then existing prevState.currentView becomes the new previousView
+      const newPreviousView = prevState.currentView !== newView ? prevState.currentView : prevState.previousView;
+      return {
+        ...prevState,
+        currentView: newView,
+        previousView: newPreviousView, // Set previousView
+        isCoverPhotoVisible: newIsCoverVisible,
+        isNavOpen: newIsNavOpen,
+        activeBuildingId: newActiveBuildingId,
+      };
+    });
 
   }, [pathname]);
 
   const navigateToHome = () => {
-    // This function is called when user clicks on the peek of home page from landing
-    setNavState(prev => ({
+    updateNavState(prev => ({
       ...prev,
       currentView: 'homeWithNav',
       isCoverPhotoVisible: false,
-      isNavOpen: true, // Open desktop nav
+      isNavOpen: true, 
       activeBuildingId: null,
-      isMobileMenuOpen: false, // Close mobile menu on this transition
+      isMobileMenuOpen: false, 
     }));
     router.push('/home');
   };
 
   const navigateToPage = (path: string) => {
-    // For navigating from the main menu
-    setNavState((prev) => ({
-      ...prev,
-      currentView: path === '/home' ? 'homeWithNav' : 'pageWithNav',
-      activeBuildingId: null, // Close building detail if navigating away
-      isMobileMenuOpen: false, // Close mobile menu when navigating
-    }));
+    updateNavState((prev) => {
+      const homeCopyRegex = /^\/home-copy-\d+$/;
+      return {
+        ...prev,
+        currentView: (path === '/home' || homeCopyRegex.test(path)) ? 'homeWithNav' : 'pageWithNav',
+        activeBuildingId: null, 
+        isMobileMenuOpen: false, 
+      };
+    });
     router.push(path);
   };
 
   const navigateToBuilding = (id: string) => {
-    setNavState((prev) => ({
+    updateNavState((prev) => ({
       ...prev,
       currentView: 'buildingDetail',
       isCoverPhotoVisible: false,
-      isNavOpen: true, // Keep desktop nav contextually open
+      isNavOpen: true, 
       activeBuildingId: id,
-      isMobileMenuOpen: false, // Close mobile menu
+      isMobileMenuOpen: false, 
     }));
     router.push(`/building/${id}`);
   };
 
   const closeBuildingDetail = () => {
-    // This should navigate back to the home page view
-    setNavState((prev) => ({
+    updateNavState((prev) => ({
       ...prev,
       currentView: 'homeWithNav',
       activeBuildingId: null,
-      isMobileMenuOpen: false, // Close mobile menu
+      isMobileMenuOpen: false, 
     }));
     router.push('/home');
   };
 
   const toggleMobileMenu = () => {
-    setNavState((prev) => ({ ...prev, isMobileMenuOpen: !prev.isMobileMenuOpen }));
+    // For toggles, previousView is not as critical in the same way as navigation
+    // but we still update it if currentView were to change, which it doesn't here.
+    setNavState((prev) => ({ ...prev, previousView: prev.currentView, isMobileMenuOpen: !prev.isMobileMenuOpen }));
   };
 
   return (

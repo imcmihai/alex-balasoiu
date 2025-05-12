@@ -86,9 +86,62 @@ export const fadeInWithExit: Variants = {
   exit: {
     opacity: 0,
     transition: {
-      duration: 0.3, // Slightly faster exit, or match 0.5s
+      duration: 0.5, // Slightly faster exit, or match 0.5s
       ease: "easeIn",
     },
+  },
+};
+
+// Updated and new variants for building detail page transition
+export const navMenuComprehensive = {
+  initialHiddenRight: { x: "100%", zIndex: 100 }, // Default starting position (off-screen right), ensure zIndex is high
+  visible: { x: "0%", zIndex: 100, transition: { duration: 0.8, ease: "easeInOut" } },
+  hiddenLeft: { x: "-100%", zIndex: -1, transition: { duration: 0.8, ease: "easeInOut" } }, // For building detail transition, send to back
+  exitToRight: { x: "100%", zIndex: 100, transition: { duration: 0.8, ease: "easeInOut" } }, // Default exit, ensure zIndex is high
+  visibleAfterDetail: { // New variant for returning from detail view
+    x: "0%", 
+    zIndex: 100, 
+    transition: { duration: 0.8, ease: "easeInOut", delay: 0 } // Changed delay to 0
+  },
+};
+
+export const contentAreaAnimateWidth = {
+  normal: { width: '50%', transition: { duration: 0.5, ease: 'easeInOut'} },
+  expandedTo80: {
+    width: '80%',
+    transition: { duration: 0.5, ease: 'easeInOut', delay: 0.5 }, // 0.5s delay from menu animation start
+  },
+  normalAfterDetail: { // New variant for returning from detail view
+    width: '50%',
+    transition: { duration: 0.8, ease: 'easeInOut', delay: 0 }, // Changed delay to 0 and duration to 0.8s
+  },
+};
+
+export const buildingDetailSlideInDefault = { // Renamed from buildingDetailSlideIn
+  hidden: { x: '-100%', opacity: 0 },
+  visible: {
+    x: '0%',
+    opacity: 1,
+    transition: { duration: 0.8, ease: 'easeInOut' },
+  },
+  exit: {
+    x: '-100%',
+    opacity: 0,
+    transition: { duration: 0.8, ease: 'easeInOut' },
+  },
+};
+
+export const buildingDetailSlideInDelayed = {
+  hidden: { x: '-100%', opacity: 0 },
+  visible: {
+    x: '0%',
+    opacity: 1,
+    transition: { duration: 0.8, ease: 'easeInOut', delay: 0.6 }, // 0.5s (content area delay) + 0.1s
+  },
+  exit: {
+    x: '-100%',
+    opacity: 0,
+    transition: { duration: 0.8, ease: 'easeInOut' }, // Standard exit for now
   },
 };
 

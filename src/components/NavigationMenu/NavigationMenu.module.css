@@ -34,6 +34,7 @@
 .navItem {
   margin-bottom: 1.5rem; /* Spacing between items */
   text-align: center; /* Or left, as per design */
+  cursor: pointer;
 }
 
 .navLink {
@@ -58,3 +59,8 @@
 .contactInfoPlaceholder p {
   margin: 0.25rem 0;
 } 
+
+.activeLink{
+  font-size: 0.9rem;
+  color: #0070f3;
+}

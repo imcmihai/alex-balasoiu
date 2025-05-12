@@ -28,7 +28,7 @@ export default function RootLayout({
     <html lang="en">
       {/* <body className={`${geistSans.variable} ${geistMono.variable}`}> */}
       {/* We can apply a global font style here later, e.g., from our typography.ts */}
-      <body style={{ fontFamily: fonts.body }}>
+      <body style={{ fontFamily: fonts.body }} suppressHydrationWarning>
         <NavigationProvider>
           {children}
         </NavigationProvider>

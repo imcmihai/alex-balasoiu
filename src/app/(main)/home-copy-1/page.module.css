@@ -1,0 +1,32 @@
+.buildingThumbnail {
+    width: 100%;
+    height: auto;
+    filter: brightness(50%);
+}
+
+.buildingThumbnail:hover {
+    animation: hover 0.5s ease forwards;
+}
+
+.gridContainer{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .gridContainer{
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@keyframes hover {
+    0% {
+        filter: brightness(50%);
+    }
+    100% {
+        filter: brightness(100%);
+    }
+}
